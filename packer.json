@@ -1,0 +1,23 @@
+{
+    "builders": [{
+      "type": "amazon-ebs",
+      "region": "us-west-2",
+      "source_ami": "ami-0c55b159cbfafe1f0",
+      "instance_type": "t2.micro",
+      "ssh_username": "ec2-user",
+      "ami_name": "ipfs-node-{{timestamp}}"
+    }],
+    "provisioners": [{
+      "type": "shell",
+      "inline": [
+        "sudo yum update -y",
+        "sudo yum install -y golang",
+        "wget https://dist.ipfs.io/go-ipfs/v0.12.0/go-ipfs_v0.12.0_linux-amd64.tar.gz",
+        "tar -xvzf go-ipfs_v0.12.0_linux-amd64.tar.gz",
+        "sudo mv go-ipfs/ipfs /usr/local/bin/ipfs",
+        "ipfs init",
+        "ipfs daemon &"
+      ]
+    }]
+  }
+  
